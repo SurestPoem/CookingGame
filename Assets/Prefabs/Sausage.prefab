@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 8233368339723123889}
   - component: {fileID: 113351043921538780}
   - component: {fileID: 7430129606558066340}
-  - component: {fileID: 3325440056523024138}
-  - component: {fileID: 5009710168045627976}
+  - component: {fileID: 709603289222021261}
+  - component: {fileID: -4250454876490959872}
   m_Layer: 7
   m_Name: Sausage
   m_TagString: Untagged
@@ -166,21 +166,7 @@ CapsuleCollider:
   m_Height: 0.0037568382
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: -0.0000044512117}
---- !u!114 &3325440056523024138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8862412255112242010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a6ac9df4cdba524b85c3ab60f1ca8d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObjectGrabbable
-  pickableLayerName: Pickable
-  beingHeldLayerName: BeingHeld
---- !u!114 &5009710168045627976
+--- !u!114 &709603289222021261
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,3 +186,17 @@ MonoBehaviour:
   cookedMaterial: {fileID: 2100000, guid: 6876a0d5f246ee749b2a3f5c1572d036, type: 2}
   burntMaterial: {fileID: 2100000, guid: 97931b1dc7dbf044a8c539da14673aeb, type: 2}
   meshRenderer: {fileID: 567315305894389444}
+--- !u!114 &-4250454876490959872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8862412255112242010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a6ac9df4cdba524b85c3ab60f1ca8d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectGrabbable
+  interactableLayerName: Interactable
+  beingHeldLayerName: BeingHeld

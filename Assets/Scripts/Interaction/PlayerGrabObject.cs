@@ -19,6 +19,11 @@ public class PlayerGrabObject : MonoBehaviour
 
     public void PickupObject(ObjectGrabbable objectToBeGrabbed)
     {
+        Hotbar hotbar = GetComponent<Hotbar>();
+        if (hotbar != null)
+        {
+            hotbar.PutAwayItem();
+        }
         objectToBeGrabbed.Grab(objectGrabPointTransform);
         objectGrabbable = objectToBeGrabbed;
     }

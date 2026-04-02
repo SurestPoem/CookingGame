@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 990440961941341296}
   - component: {fileID: 1123794381193974645}
   - component: {fileID: 6946407150243033351}
-  - component: {fileID: 1478120951941578994}
-  - component: {fileID: 8609635215768647293}
+  - component: {fileID: 8995252763200510964}
+  - component: {fileID: 8770712689282001556}
   m_Layer: 7
   m_Name: Hotdog Bun
   m_TagString: Untagged
@@ -166,21 +166,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1478120951941578994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4413048653031964008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a6ac9df4cdba524b85c3ab60f1ca8d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObjectGrabbable
-  pickableLayerName: Pickable
-  beingHeldLayerName: BeingHeld
---- !u!114 &8609635215768647293
+--- !u!114 &8995252763200510964
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,9 +180,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Cookable
   cookState: 0
   currentCookScore: 0
-  scoreToCook: 60
-  scoreToBurn: 90
+  scoreToCook: 40
+  scoreToBurn: 80
   rawMaterial: {fileID: 2100000, guid: 63aa8f3a9da11a54697a8c1ce2dd2d2c, type: 2}
   cookedMaterial: {fileID: 2100000, guid: 7d03d1dafef04e0488e6d5e97f7bc985, type: 2}
   burntMaterial: {fileID: 2100000, guid: 27f04751ba5fb0e4e93b087bd76088cc, type: 2}
   meshRenderer: {fileID: 6750669493725865505}
+--- !u!114 &8770712689282001556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4413048653031964008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a6ac9df4cdba524b85c3ab60f1ca8d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectGrabbable
+  interactableLayerName: Interactable
+  beingHeldLayerName: BeingHeld

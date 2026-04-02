@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ObjectGrabbable : MonoBehaviour, IInteractable
@@ -61,6 +62,26 @@ public class ObjectGrabbable : MonoBehaviour, IInteractable
                 objectRigidbody.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
             }
         }
+    }
+
+    //To do
+    //Ensures object is on stable ground, gravity disabled,  lifts into the air, flips over, and gravity enabled again 
+    public void Flip()
+    {
+        if (!isPickedUp)
+        {
+            StartCoroutine(FlipRoutine());
+        }
+    }
+
+    private IEnumerator FlipRoutine()
+    {
+        objectRigidbody.useGravity = false;
+        
+        //Code here
+
+        objectRigidbody.useGravity = true;
+        return null;
     }
 
     public string GetInteractionPrompt()

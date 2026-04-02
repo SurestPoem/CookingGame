@@ -125,9 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf790a6f86171f4eb43e967909426ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Freezer
-  ingredientPrefab: {fileID: 3325440056523024138, guid: e5a67b2c367b29548ba98ef85d49d61d, type: 3}
+  ingredientPrefab: {fileID: -4250454876490959872, guid: e5a67b2c367b29548ba98ef85d49d61d, type: 3}
   spawnPoint: {fileID: 7915507542697149279}
-  spawnDelay: 1
+  spawnDelay: 0.5
 --- !u!1 &8409276666880923816
 GameObject:
   m_ObjectHideFlags: 0
