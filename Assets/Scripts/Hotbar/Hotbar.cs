@@ -14,15 +14,19 @@ public class Hotbar : MonoBehaviour
     [SerializeField] private int selectedSlot = 0;
     [SerializeField] private HotbarItem[] hotbarSlots = new HotbarItem[9];
     [SerializeField] private GameObject currentlyHeldItem;
-    [SerializeField] private GameObject playerHand;
+    private PlayerGrabObject grabObject;
+
+    private PlayerReferences references;
 
 
     private void Awake()
     {
+        references = GetComponent<PlayerReferences>();
         inputs = new PlayerControls();
         scrollAction = inputs.PlayerCharacter.ScrollHotbar;
         useAction = inputs.PlayerCharacter.Use;
         dropAction = inputs.PlayerCharacter.Drop;
+        grabObject = GetComponent<PlayerGrabObject>();
     }
 
     void OnEnable()
@@ -41,9 +45,12 @@ public class Hotbar : MonoBehaviour
 
     void Update()
     {
-        float scrollValue = scrollAction.ReadValue<float>();
-        SwitchItem(scrollValue);
-
+        if (scrollAction.triggered)
+        {
+            float scrollValue = scrollAction.ReadValue<float>();
+            SwitchItem(scrollValue);
+        }
+        
         if (useAction.triggered)
         {
             UseCurrentItem();
@@ -57,6 +64,7 @@ public class Hotbar : MonoBehaviour
 
     private void SwitchItem(float scrollValue)
     {
+        int previousSlot = selectedSlot;
         if (scrollValue > 0)
         {
             selectedSlot--;
@@ -75,8 +83,14 @@ public class Hotbar : MonoBehaviour
             }
             Debug.Log("Scrolled Down");
         }
-
-        PullOutItem();
+        if (selectedSlot != previousSlot)
+        {
+            PullOutItem();
+            if (currentlyHeldItem != null && hotbarSlots[selectedSlot] == null)
+            {
+                PutAwayItem();
+            }
+        }
     }
 
     public void AddNewItem(HotbarItem item)
@@ -86,6 +100,7 @@ public class Hotbar : MonoBehaviour
             if (hotbarSlots[i] == null)
             {
                 hotbarSlots[i] = item;
+                PullOutItem(); //If the current slot just gained an item, this pulls it out
                 return;
             }
         }
@@ -96,13 +111,14 @@ public class Hotbar : MonoBehaviour
     {
         DropItem();
         hotbarSlots[selectedSlot] = newItem;
+        PullOutItem();
     }
 
     public void DropItem()
     {
         if (hotbarSlots[selectedSlot] == null) { return; }
         GameObject itemToDrop = hotbarSlots[selectedSlot].worldPrefab;
-        Vector3 spawnPosition = playerHand.transform.position + playerHand.transform.forward * 0.5f;
+        Vector3 spawnPosition = references.objectGrabPointTransform.transform.position + references.objectGrabPointTransform.transform.forward * 0.5f;
         if (currentlyHeldItem != null)
         {
             PutAwayItem();
@@ -114,15 +130,15 @@ public class Hotbar : MonoBehaviour
     public void PullOutItem()
     {
         if (hotbarSlots[selectedSlot] == null) { return; }
+        if (currentlyHeldItem != null) { PutAwayItem(); }
         GameObject itemToPullOut = hotbarSlots[selectedSlot].handPrefab;
-        PlayerGrabObject grabObject = GetComponent<PlayerGrabObject>();
         if (grabObject != null)
         {
             if (grabObject.IsHoldingObject())
             {
                 grabObject.DropObject();
             }
-            currentlyHeldItem = Instantiate(itemToPullOut, playerHand.transform);
+            currentlyHeldItem = Instantiate(itemToPullOut, references.playerHand.transform);
         }
     }
 

@@ -5,12 +5,13 @@ public class PlayerInteract : MonoBehaviour
 {
     public PlayerControls inputs;
     private InputAction interactAction;
-    [SerializeField] private Transform playerCameraTransform;
+    private PlayerReferences references;
     [SerializeField] private float interactRange = 2f;
     [SerializeField] private LayerMask interactLayerMask;
     
     private void Awake()
     {
+        references = GetComponent<PlayerReferences>();
         inputs = new PlayerControls();
         interactAction = inputs.PlayerCharacter.Interact;
     }
@@ -35,7 +36,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void Interact()
     {
-        if (Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out RaycastHit raycastHit, interactRange, interactLayerMask))
+        if (Physics.Raycast(references.playersCameraTransform.position, references.playersCameraTransform.forward, out RaycastHit raycastHit, interactRange, interactLayerMask))
         {
             if (raycastHit.transform.TryGetComponent<IInteractable>(out IInteractable interactable))
             {

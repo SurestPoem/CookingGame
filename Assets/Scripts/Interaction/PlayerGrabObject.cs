@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class PlayerGrabObject : MonoBehaviour
 {
-    [SerializeField] private Transform objectGrabPointTransform;
+    private PlayerReferences references;
     private ObjectGrabbable objectGrabbable;
+    private Hotbar hotbar;
 
+    private void Awake()
+    {
+        hotbar = GetComponent<Hotbar>();
+        references = GetComponent<PlayerReferences>();
+    }
     public void OnGrabTry(ObjectGrabbable objectToBeGrabbed)
     {
         if (objectGrabbable == null)
@@ -19,12 +25,11 @@ public class PlayerGrabObject : MonoBehaviour
 
     public void PickupObject(ObjectGrabbable objectToBeGrabbed)
     {
-        Hotbar hotbar = GetComponent<Hotbar>();
         if (hotbar != null)
         {
             hotbar.PutAwayItem();
         }
-        objectToBeGrabbed.Grab(objectGrabPointTransform);
+        objectToBeGrabbed.Grab(references.objectGrabPointTransform);
         objectGrabbable = objectToBeGrabbed;
     }
 

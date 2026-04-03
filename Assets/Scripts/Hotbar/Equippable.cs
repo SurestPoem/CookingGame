@@ -10,6 +10,7 @@ public class Equippable : MonoBehaviour, IInteractable
         if (interactorsHotbar != null)
         {
             interactorsHotbar.AddNewItem(hotbarItem);
+            Destroy(gameObject);
         }
     }
 
