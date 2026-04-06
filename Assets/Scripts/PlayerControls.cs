@@ -145,6 +145,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Holster"",
+                    ""type"": ""Button"",
+                    ""id"": ""9dd2452f-552d-494d-bf2a-57454f3d1fa4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HotbarSelection"",
+                    ""type"": ""Value"",
+                    ""id"": ""e2cda841-4e0e-4130-a9ab-872c6001bf0a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -345,6 +363,127 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Drop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49014504-01a6-4f5d-93d5-0b034278a73a"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Holster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""940481f7-e011-49b1-a9d4-7272813aac17"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Holster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0be1d7a4-04cd-43ea-b1bf-f537d365a56e"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale"",
+                    ""groups"": """",
+                    ""action"": ""HotbarSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5f46236-f717-447d-b7a6-7226bc62f209"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": """",
+                    ""action"": ""HotbarSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9b49984f-a946-4fae-8992-abf1b113dc18"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": """",
+                    ""action"": ""HotbarSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d122d5a8-c522-41be-9078-28ff95fc4f8d"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": """",
+                    ""action"": ""HotbarSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""777e9c88-e388-4f56-983a-f4f2e5f0dae6"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=5)"",
+                    ""groups"": """",
+                    ""action"": ""HotbarSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fbbd3c28-e16b-4e44-9ac1-124f51c6ee5a"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=6)"",
+                    ""groups"": """",
+                    ""action"": ""HotbarSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bf630c1b-5977-424a-b24e-91ce9e3aa5d5"",
+                    ""path"": ""<Keyboard>/7"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=7)"",
+                    ""groups"": """",
+                    ""action"": ""HotbarSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b15465e3-43bd-4c81-a207-70e371164edf"",
+                    ""path"": ""<Keyboard>/8"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=8)"",
+                    ""groups"": """",
+                    ""action"": ""HotbarSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ab762ad-63fe-45a1-b75e-88b80af5ac6d"",
+                    ""path"": ""<Keyboard>/9"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=9)"",
+                    ""groups"": """",
+                    ""action"": ""HotbarSelection"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -359,6 +498,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerCharacter_Use = m_PlayerCharacter.FindAction("Use", throwIfNotFound: true);
         m_PlayerCharacter_ScrollHotbar = m_PlayerCharacter.FindAction("ScrollHotbar", throwIfNotFound: true);
         m_PlayerCharacter_Drop = m_PlayerCharacter.FindAction("Drop", throwIfNotFound: true);
+        m_PlayerCharacter_Holster = m_PlayerCharacter.FindAction("Holster", throwIfNotFound: true);
+        m_PlayerCharacter_HotbarSelection = m_PlayerCharacter.FindAction("HotbarSelection", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -445,6 +586,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerCharacter_Use;
     private readonly InputAction m_PlayerCharacter_ScrollHotbar;
     private readonly InputAction m_PlayerCharacter_Drop;
+    private readonly InputAction m_PlayerCharacter_Holster;
+    private readonly InputAction m_PlayerCharacter_HotbarSelection;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerCharacter".
     /// </summary>
@@ -480,6 +623,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerCharacter/Drop".
         /// </summary>
         public InputAction @Drop => m_Wrapper.m_PlayerCharacter_Drop;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerCharacter/Holster".
+        /// </summary>
+        public InputAction @Holster => m_Wrapper.m_PlayerCharacter_Holster;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerCharacter/HotbarSelection".
+        /// </summary>
+        public InputAction @HotbarSelection => m_Wrapper.m_PlayerCharacter_HotbarSelection;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -524,6 +675,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Drop.started += instance.OnDrop;
             @Drop.performed += instance.OnDrop;
             @Drop.canceled += instance.OnDrop;
+            @Holster.started += instance.OnHolster;
+            @Holster.performed += instance.OnHolster;
+            @Holster.canceled += instance.OnHolster;
+            @HotbarSelection.started += instance.OnHotbarSelection;
+            @HotbarSelection.performed += instance.OnHotbarSelection;
+            @HotbarSelection.canceled += instance.OnHotbarSelection;
         }
 
         /// <summary>
@@ -553,6 +710,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Drop.started -= instance.OnDrop;
             @Drop.performed -= instance.OnDrop;
             @Drop.canceled -= instance.OnDrop;
+            @Holster.started -= instance.OnHolster;
+            @Holster.performed -= instance.OnHolster;
+            @Holster.canceled -= instance.OnHolster;
+            @HotbarSelection.started -= instance.OnHotbarSelection;
+            @HotbarSelection.performed -= instance.OnHotbarSelection;
+            @HotbarSelection.canceled -= instance.OnHotbarSelection;
         }
 
         /// <summary>
@@ -635,5 +798,19 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDrop(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Holster" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHolster(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "HotbarSelection" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHotbarSelection(InputAction.CallbackContext context);
     }
 }

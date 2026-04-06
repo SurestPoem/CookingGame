@@ -12,7 +12,7 @@ public class ObjectGrabbable : MonoBehaviour, IInteractable
     private int beingHeldLayerInt;
     private Vector3 idealRotation;
     private bool isPickedUp = false;
-
+    private bool isFlipping = false;
 
     private void Awake()
     {
@@ -68,7 +68,7 @@ public class ObjectGrabbable : MonoBehaviour, IInteractable
     //Ensures object is on stable ground, gravity disabled,  lifts into the air, flips over, and gravity enabled again 
     public void Flip()
     {
-        if (!isPickedUp)
+        if (!isPickedUp && !isFlipping)
         {
             StartCoroutine(FlipRoutine());
         }
@@ -76,11 +76,13 @@ public class ObjectGrabbable : MonoBehaviour, IInteractable
 
     private IEnumerator FlipRoutine()
     {
+        isFlipping = true;
         objectRigidbody.useGravity = false;
         
         //Code here
 
         objectRigidbody.useGravity = true;
+        isFlipping = false;
         return null;
     }
 

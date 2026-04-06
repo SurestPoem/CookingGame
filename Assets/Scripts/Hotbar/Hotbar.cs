@@ -10,10 +10,12 @@ public class Hotbar : MonoBehaviour
     private InputAction scrollAction;
     private InputAction useAction;
     private InputAction dropAction;
-    [SerializeField] private int hotbarSize = 9;
-    [SerializeField] private int selectedSlot = 0;
+    private InputAction holsterAction;
+    private InputAction hotbarSelectionAction;
+    [SerializeField] private int currentSlotIndex = 0;
     [SerializeField] private HotbarItem[] hotbarSlots = new HotbarItem[9];
     [SerializeField] private GameObject currentlyHeldItem;
+    [SerializeField] private float throwForce = 3f;
     private PlayerGrabObject grabObject;
 
     private PlayerReferences references;
@@ -26,6 +28,8 @@ public class Hotbar : MonoBehaviour
         scrollAction = inputs.PlayerCharacter.ScrollHotbar;
         useAction = inputs.PlayerCharacter.Use;
         dropAction = inputs.PlayerCharacter.Drop;
+        holsterAction = inputs.PlayerCharacter.Holster;
+        hotbarSelectionAction = inputs.PlayerCharacter.HotbarSelection;
         grabObject = GetComponent<PlayerGrabObject>();
     }
 
@@ -34,6 +38,8 @@ public class Hotbar : MonoBehaviour
         scrollAction.Enable();
         useAction.Enable();
         dropAction.Enable();
+        holsterAction.Enable();
+        hotbarSelectionAction.Enable();
     }
 
     void OnDisable()
@@ -41,14 +47,20 @@ public class Hotbar : MonoBehaviour
         scrollAction.Disable();
         useAction.Disable();
         dropAction.Disable();
+        holsterAction.Disable();
+        hotbarSelectionAction.Disable();
     }
 
+    private void Start()
+    {
+        references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
+    }
     void Update()
     {
         if (scrollAction.triggered)
         {
             float scrollValue = scrollAction.ReadValue<float>();
-            SwitchItem(scrollValue);
+            ScrollHotbar(scrollValue);
         }
         
         if (useAction.triggered)
@@ -60,37 +72,58 @@ public class Hotbar : MonoBehaviour
         {
             DropItem();
         }
+
+        if (holsterAction.triggered)
+        {
+            HolsterCurrentItem();
+        }
+
+        if (hotbarSelectionAction.triggered)
+        {
+            SwitchItem(hotbarSelectionAction.ReadValue<int>());
+        }
     }
 
-    private void SwitchItem(float scrollValue)
+    private void ScrollHotbar(float scrollValue)
     {
-        int previousSlot = selectedSlot;
+        int previousSlot = currentSlotIndex;
         if (scrollValue > 0)
         {
-            selectedSlot--;
-            if (selectedSlot < 0)
+            currentSlotIndex--;
+            if (currentSlotIndex < 0)
             {
-                selectedSlot = hotbarSlots.Length - 1;
+                currentSlotIndex = hotbarSlots.Length - 1;
             }
             Debug.Log("Scrolled Up");
         }
         else if (scrollValue < 0)
         {
-            selectedSlot++;
-            if (selectedSlot >= hotbarSlots.Length)
+            currentSlotIndex++;
+            if (currentSlotIndex >= hotbarSlots.Length)
             {
-                selectedSlot = 0;
+                currentSlotIndex = 0;
             }
             Debug.Log("Scrolled Down");
         }
-        if (selectedSlot != previousSlot)
+        if (currentSlotIndex != previousSlot)
         {
             PullOutItem();
-            if (currentlyHeldItem != null && hotbarSlots[selectedSlot] == null)
+            if (currentlyHeldItem != null && hotbarSlots[currentSlotIndex] == null)
             {
                 PutAwayItem();
             }
         }
+        references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
+    }
+
+    private void SwitchItem(int desiredSlot)
+    {
+        if (desiredSlot == currentSlotIndex) { return; }
+        if (desiredSlot < 0 || desiredSlot >= hotbarSlots.Length) { return; }
+
+        currentSlotIndex = desiredSlot;
+
+        PullOutItem();
     }
 
     public void AddNewItem(HotbarItem item)
@@ -101,6 +134,7 @@ public class Hotbar : MonoBehaviour
             {
                 hotbarSlots[i] = item;
                 PullOutItem(); //If the current slot just gained an item, this pulls it out
+                references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
                 return;
             }
         }
@@ -110,28 +144,38 @@ public class Hotbar : MonoBehaviour
     private void ReplaceItem(HotbarItem newItem)
     {
         DropItem();
-        hotbarSlots[selectedSlot] = newItem;
+        hotbarSlots[currentSlotIndex] = newItem;
         PullOutItem();
+        references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
     }
 
     public void DropItem()
     {
-        if (hotbarSlots[selectedSlot] == null) { return; }
-        GameObject itemToDrop = hotbarSlots[selectedSlot].worldPrefab;
-        Vector3 spawnPosition = references.objectGrabPointTransform.transform.position + references.objectGrabPointTransform.transform.forward * 0.5f;
+        if (hotbarSlots[currentSlotIndex] == null) { return; }
+        GameObject itemToDrop = hotbarSlots[currentSlotIndex].worldPrefab;
+        Vector3 spawnPosition = references.playersCameraTransform.position + references.playersCameraTransform.forward * 0.5f;
         if (currentlyHeldItem != null)
         {
             PutAwayItem();
         }
-        Instantiate(itemToDrop, spawnPosition, Quaternion.identity);
-        hotbarSlots[selectedSlot] = null;
+        GameObject droppedItem = Instantiate(itemToDrop, spawnPosition, Quaternion.identity);
+        hotbarSlots[currentSlotIndex] = null;
+        if (droppedItem.TryGetComponent<Rigidbody>(out Rigidbody rb))
+        {
+            float torqueMultiplier = throwForce / 7f * 2f; 
+            Vector3 throwDirection = references.playerHand.transform.forward + Vector3.up * 0.2f;
+            rb.AddForce(throwDirection.normalized * throwForce, ForceMode.Impulse);
+
+            rb.AddTorque(Random.insideUnitSphere * torqueMultiplier, ForceMode.Impulse);
+        }
+        references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
     }
 
     public void PullOutItem()
     {
-        if (hotbarSlots[selectedSlot] == null) { return; }
+        if (hotbarSlots[currentSlotIndex] == null) { return; }
         if (currentlyHeldItem != null) { PutAwayItem(); }
-        GameObject itemToPullOut = hotbarSlots[selectedSlot].handPrefab;
+        GameObject itemToPullOut = hotbarSlots[currentSlotIndex].handPrefab;
         if (grabObject != null)
         {
             if (grabObject.IsHoldingObject())
@@ -140,12 +184,26 @@ public class Hotbar : MonoBehaviour
             }
             currentlyHeldItem = Instantiate(itemToPullOut, references.playerHand.transform);
         }
+        references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
     }
 
     public void PutAwayItem()
     {
         Destroy(currentlyHeldItem);
         currentlyHeldItem = null;
+        references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
+    }
+
+    private void HolsterCurrentItem()
+    {
+        if (currentlyHeldItem != null)
+        {
+            PutAwayItem();
+        }
+        else
+        {
+            PullOutItem();
+        }
     }
 
     private void UseCurrentItem()
