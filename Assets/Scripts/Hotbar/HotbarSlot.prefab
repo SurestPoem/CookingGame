@@ -127,6 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HotbarSlotUI
   icon: {fileID: 728755637484006015}
+  SmoothUI: 1
+  smoothTime: 0.05
 --- !u!222 &1315486211291711134
 CanvasRenderer:
   m_ObjectHideFlags: 0

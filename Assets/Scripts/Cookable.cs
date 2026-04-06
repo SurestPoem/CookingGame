@@ -23,22 +23,21 @@ public class Cookable : MonoBehaviour
         UpdateMaterial();
     }
 
-    private void OnTriggerStay(Collider other)
+    public void Cook(float cookAmount)
     {
-        if (other.CompareTag("Station"))
+        if (cookState == CookState.Burnt) return;
+
+        currentCookScore += cookAmount;
+        currentCookScore = Mathf.Clamp(currentCookScore, 0f, scoreToBurn);
+        if (currentCookScore >= scoreToBurn && cookState != CookState.Burnt)
         {
-            currentCookScore += Time.deltaTime * 5f;
-            currentCookScore = Mathf.Clamp(currentCookScore, 0f, scoreToBurn);
-            if (currentCookScore >= scoreToBurn && cookState != CookState.Burnt)
-            {
-                cookState = CookState.Burnt;
-                UpdateMaterial();
-            }
-            else if (currentCookScore >= scoreToCook && currentCookScore < scoreToBurn && cookState != CookState.Cooked)
-            {
-                cookState = CookState.Cooked;
-                UpdateMaterial();
-            }
+            cookState = CookState.Burnt;
+            UpdateMaterial();
+        }
+        else if (currentCookScore >= scoreToCook && currentCookScore < scoreToBurn && cookState != CookState.Cooked)
+        {
+            cookState = CookState.Cooked;
+            UpdateMaterial();
         }
     }
 

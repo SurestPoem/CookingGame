@@ -88,6 +88,10 @@ public class ObjectGrabbable : MonoBehaviour, IInteractable
 
     public string GetInteractionPrompt()
     {
+        if (isPickedUp)
+        {
+            return "Drop";
+        }
         return "Pick up";
     }
 }

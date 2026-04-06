@@ -1,6 +1,3 @@
-using NUnit.Framework;
-using System.Data;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +14,7 @@ public class Hotbar : MonoBehaviour
     [SerializeField] private GameObject currentlyHeldItem;
     [SerializeField] private float throwForce = 3f;
     private PlayerGrabObject grabObject;
+    [SerializeField] private bool PreferCurrentSlot;
 
     private PlayerReferences references;
 
@@ -80,7 +78,7 @@ public class Hotbar : MonoBehaviour
 
         if (hotbarSelectionAction.triggered)
         {
-            SwitchItem(hotbarSelectionAction.ReadValue<int>());
+            SwitchItem(hotbarSelectionAction.ReadValue<float>());
         }
     }
 
@@ -116,18 +114,29 @@ public class Hotbar : MonoBehaviour
         references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
     }
 
-    private void SwitchItem(int desiredSlot)
+    private void SwitchItem(float desiredSlot)
     {
         if (desiredSlot == currentSlotIndex) { return; }
         if (desiredSlot < 0 || desiredSlot >= hotbarSlots.Length) { return; }
 
-        currentSlotIndex = desiredSlot;
+        currentSlotIndex = (int)desiredSlot;
 
         PullOutItem();
+        references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
     }
 
     public void AddNewItem(HotbarItem item)
     {
+        if (PreferCurrentSlot)
+        {
+            if (hotbarSlots[currentSlotIndex] == null)
+            {
+                hotbarSlots[currentSlotIndex] = item;
+                PullOutItem();
+                references.hotbarUiManager.UpdateUI(hotbarSlots, currentSlotIndex, currentlyHeldItem != null);
+                return;
+            }
+        }
         for (int i = 0; i < hotbarSlots.Length; i++)
         {
             if (hotbarSlots[i] == null)

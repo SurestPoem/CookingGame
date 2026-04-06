@@ -7,6 +7,7 @@ public class HotbarSlotUI : MonoBehaviour
     [SerializeField] private Image icon;
 
     [Header("Smooth UI Settings")] //For when global game settings is added (Will be for the SmoothUI setting)
+    [SerializeField] private bool SmoothUI = false;
     private Vector3 targetScale = Vector3.one;
     private Vector3 velocity = Vector3.zero;
     [SerializeField] private float smoothTime = 0.1f;
@@ -15,24 +16,28 @@ public class HotbarSlotUI : MonoBehaviour
         if (icon != null)
         {
             icon.sprite = sprite;
-            if (sprite == null)
-            {
-                icon.gameObject.SetActive(false);
-                return;
-            }
-            icon.gameObject.SetActive(true);
+            icon.gameObject.SetActive(sprite != null);
         }
     }
 
     private void Update()
     {
-        //transform.localScale = Vector3.SmoothDamp(transform.localScale, targetScale, ref velocity, smoothTime);
+        if (SmoothUI && (transform.localScale - targetScale).sqrMagnitude > 0.0001f)
+        {
+            transform.localScale = Vector3.SmoothDamp(transform.localScale, targetScale, ref velocity, smoothTime);
+        }
     }
 
     public void ScaleHotbarSlot(bool isSelected, float selectedScale)
     {
-        //targetScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
-        transform.localScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
+        if (SmoothUI)
+        {
+            targetScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
+        }
+        else
+        {
+            transform.localScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
+        }
         //Add border code later
     }
 }

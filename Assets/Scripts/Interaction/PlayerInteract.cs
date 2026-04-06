@@ -32,6 +32,7 @@ public class PlayerInteract : MonoBehaviour
         {
             Interact();
         }
+        GetInteractableObject();
     }
 
     private void Interact()
@@ -42,6 +43,25 @@ public class PlayerInteract : MonoBehaviour
             {
                 interactable.Interact(gameObject);
             }
+        }
+    }
+
+    private void GetInteractableObject()
+    {
+        if (Physics.Raycast(references.playersCameraTransform.position, references.playersCameraTransform.forward, out RaycastHit raycastHit, interactRange, interactLayerMask))
+        {
+            if (raycastHit.transform.TryGetComponent<IInteractable>(out IInteractable interactable))
+            {
+                references.interactUI.Show(interactable.GetInteractionPrompt());
+            }
+            else
+            {
+                references.interactUI.Hide();
+            }
+        }
+        else
+        {
+            references.interactUI.Hide();
         }
     }
 }
