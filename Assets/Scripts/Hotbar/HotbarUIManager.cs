@@ -8,6 +8,11 @@ public class HotbarUIManager : MonoBehaviour
 
     public void UpdateUI(HotbarItem[] hotbarSlots, int currentIndex, bool isHoldingSomething)
     {
+        if (hotbarSlots.Length != hotbarSlotUIs.Length)
+        {
+            // https://imgur.com/a/IWDzmmb
+            Debug.Log("Length of arrays is different");
+        }
         for (int i = 0;  i < hotbarSlots.Length; i++)
         {
             HotbarSlotUI currentSlotUI = hotbarSlotUIs[i];

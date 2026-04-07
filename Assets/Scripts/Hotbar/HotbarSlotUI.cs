@@ -5,6 +5,8 @@ public class HotbarSlotUI : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Image icon;
+    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private bool unselectedHotbarFade = true;
 
     [Header("Smooth UI Settings")] //For when global game settings is added (Will be for the SmoothUI setting)
     [SerializeField] private bool SmoothUI = false;
@@ -26,6 +28,10 @@ public class HotbarSlotUI : MonoBehaviour
         {
             transform.localScale = Vector3.SmoothDamp(transform.localScale, targetScale, ref velocity, smoothTime);
         }
+        if ((transform.localScale - targetScale).sqrMagnitude < 0.0001f)
+        { 
+            transform.localScale = targetScale;
+        }
     }
 
     public void ScaleHotbarSlot(bool isSelected, float selectedScale)
@@ -39,5 +45,9 @@ public class HotbarSlotUI : MonoBehaviour
             transform.localScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
         }
         //Add border code later
+        if (unselectedHotbarFade)
+        {
+            canvasGroup.alpha = isSelected ? 1.0f : 0.5f;
+        }
     }
 }

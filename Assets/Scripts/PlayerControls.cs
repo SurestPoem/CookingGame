@@ -138,6 +138,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""HotbarSelection"",
+                    ""type"": ""Value"",
+                    ""id"": ""e2cda841-4e0e-4130-a9ab-872c6001bf0a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Drop"",
                     ""type"": ""Button"",
                     ""id"": ""0bd1c2b7-6750-44f7-922e-a86385296ba3"",
@@ -154,15 +163,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""HotbarSelection"",
-                    ""type"": ""Value"",
-                    ""id"": ""e2cda841-4e0e-4130-a9ab-872c6001bf0a"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -497,9 +497,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerCharacter_Interact = m_PlayerCharacter.FindAction("Interact", throwIfNotFound: true);
         m_PlayerCharacter_Use = m_PlayerCharacter.FindAction("Use", throwIfNotFound: true);
         m_PlayerCharacter_ScrollHotbar = m_PlayerCharacter.FindAction("ScrollHotbar", throwIfNotFound: true);
+        m_PlayerCharacter_HotbarSelection = m_PlayerCharacter.FindAction("HotbarSelection", throwIfNotFound: true);
         m_PlayerCharacter_Drop = m_PlayerCharacter.FindAction("Drop", throwIfNotFound: true);
         m_PlayerCharacter_Holster = m_PlayerCharacter.FindAction("Holster", throwIfNotFound: true);
-        m_PlayerCharacter_HotbarSelection = m_PlayerCharacter.FindAction("HotbarSelection", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -585,9 +585,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerCharacter_Interact;
     private readonly InputAction m_PlayerCharacter_Use;
     private readonly InputAction m_PlayerCharacter_ScrollHotbar;
+    private readonly InputAction m_PlayerCharacter_HotbarSelection;
     private readonly InputAction m_PlayerCharacter_Drop;
     private readonly InputAction m_PlayerCharacter_Holster;
-    private readonly InputAction m_PlayerCharacter_HotbarSelection;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerCharacter".
     /// </summary>
@@ -620,6 +620,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @ScrollHotbar => m_Wrapper.m_PlayerCharacter_ScrollHotbar;
         /// <summary>
+        /// Provides access to the underlying input action "PlayerCharacter/HotbarSelection".
+        /// </summary>
+        public InputAction @HotbarSelection => m_Wrapper.m_PlayerCharacter_HotbarSelection;
+        /// <summary>
         /// Provides access to the underlying input action "PlayerCharacter/Drop".
         /// </summary>
         public InputAction @Drop => m_Wrapper.m_PlayerCharacter_Drop;
@@ -627,10 +631,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerCharacter/Holster".
         /// </summary>
         public InputAction @Holster => m_Wrapper.m_PlayerCharacter_Holster;
-        /// <summary>
-        /// Provides access to the underlying input action "PlayerCharacter/HotbarSelection".
-        /// </summary>
-        public InputAction @HotbarSelection => m_Wrapper.m_PlayerCharacter_HotbarSelection;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -672,15 +672,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScrollHotbar.started += instance.OnScrollHotbar;
             @ScrollHotbar.performed += instance.OnScrollHotbar;
             @ScrollHotbar.canceled += instance.OnScrollHotbar;
+            @HotbarSelection.started += instance.OnHotbarSelection;
+            @HotbarSelection.performed += instance.OnHotbarSelection;
+            @HotbarSelection.canceled += instance.OnHotbarSelection;
             @Drop.started += instance.OnDrop;
             @Drop.performed += instance.OnDrop;
             @Drop.canceled += instance.OnDrop;
             @Holster.started += instance.OnHolster;
             @Holster.performed += instance.OnHolster;
             @Holster.canceled += instance.OnHolster;
-            @HotbarSelection.started += instance.OnHotbarSelection;
-            @HotbarSelection.performed += instance.OnHotbarSelection;
-            @HotbarSelection.canceled += instance.OnHotbarSelection;
         }
 
         /// <summary>
@@ -707,15 +707,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ScrollHotbar.started -= instance.OnScrollHotbar;
             @ScrollHotbar.performed -= instance.OnScrollHotbar;
             @ScrollHotbar.canceled -= instance.OnScrollHotbar;
+            @HotbarSelection.started -= instance.OnHotbarSelection;
+            @HotbarSelection.performed -= instance.OnHotbarSelection;
+            @HotbarSelection.canceled -= instance.OnHotbarSelection;
             @Drop.started -= instance.OnDrop;
             @Drop.performed -= instance.OnDrop;
             @Drop.canceled -= instance.OnDrop;
             @Holster.started -= instance.OnHolster;
             @Holster.performed -= instance.OnHolster;
             @Holster.canceled -= instance.OnHolster;
-            @HotbarSelection.started -= instance.OnHotbarSelection;
-            @HotbarSelection.performed -= instance.OnHotbarSelection;
-            @HotbarSelection.canceled -= instance.OnHotbarSelection;
         }
 
         /// <summary>
@@ -792,6 +792,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScrollHotbar(InputAction.CallbackContext context);
         /// <summary>
+        /// Method invoked when associated input action "HotbarSelection" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHotbarSelection(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "Drop" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -805,12 +812,5 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHolster(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "HotbarSelection" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnHotbarSelection(InputAction.CallbackContext context);
     }
 }

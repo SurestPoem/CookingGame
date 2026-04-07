@@ -14,7 +14,7 @@ public class Hotbar : MonoBehaviour
     [SerializeField] private GameObject currentlyHeldItem;
     [SerializeField] private float throwForce = 3f;
     private PlayerGrabObject grabObject;
-    [SerializeField] private bool PreferCurrentSlot;
+    [SerializeField] private bool PreferCurrentSlot; //Important - as soon as a settings menu is added, tranfer this to that
 
     private PlayerReferences references;
 

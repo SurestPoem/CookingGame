@@ -52,6 +52,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "HotbarSelection",
+                    "type": "Value",
+                    "id": "e2cda841-4e0e-4130-a9ab-872c6001bf0a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Drop",
                     "type": "Button",
                     "id": "0bd1c2b7-6750-44f7-922e-a86385296ba3",
@@ -68,15 +77,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "HotbarSelection",
-                    "type": "Value",
-                    "id": "e2cda841-4e0e-4130-a9ab-872c6001bf0a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
