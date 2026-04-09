@@ -6,12 +6,17 @@ public class HotbarSlotUI : MonoBehaviour
     [Header("References")]
     [SerializeField] private Image icon;
     [SerializeField] private CanvasGroup canvasGroup;
+    
+    [Header("General settings")]
     [SerializeField] private bool unselectedHotbarFade = true;
-
-    [Header("Smooth UI Settings")] //For when global game settings is added (Will be for the SmoothUI setting)
+    [SerializeField] private bool dontScaleWhenNotHolding = true;
+    [Header("Border settings")]
+    [SerializeField] private Image borderImage;
+    [SerializeField] private Color normalColor = new Color(110/255f, 110/255f, 110/255f);
+    [SerializeField] private Color selectedColor = new Color(215/255f, 215/255f, 215/255f);
+    [Header("Smooth UI Settings")] //For when global game settings is added (Will be for the SmoothUI setting) - Note for when adding more UI elements. SmoothUI must be implemented for them when you can
     [SerializeField] private bool SmoothUI = false;
     private Vector3 targetScale = Vector3.one;
-    private Vector3 velocity = Vector3.zero;
     [SerializeField] private float smoothTime = 0.1f;
     public void SetIcon(Sprite sprite)
     {
@@ -24,30 +29,61 @@ public class HotbarSlotUI : MonoBehaviour
 
     private void Update()
     {
-        if (SmoothUI && (transform.localScale - targetScale).sqrMagnitude > 0.0001f)
+        if (SmoothUI)
         {
-            transform.localScale = Vector3.SmoothDamp(transform.localScale, targetScale, ref velocity, smoothTime);
-        }
-        if ((transform.localScale - targetScale).sqrMagnitude < 0.0001f)
-        { 
-            transform.localScale = targetScale;
+            if ((transform.localScale - targetScale).sqrMagnitude > 0.0001f)
+            {
+                transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime / smoothTime);
+            }
+            else
+            {
+                transform.localScale = targetScale;
+            }
         }
     }
 
-    public void ScaleHotbarSlot(bool isSelected, float selectedScale)
+    public void ScaleHotbarSlot(bool isSelected, bool isPrevious, float selectedScale, bool isHoldingSomething)
     {
-        if (SmoothUI)
+        if (isHoldingSomething || !dontScaleWhenNotHolding)
         {
-            targetScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
+            if (SmoothUI)
+            {
+                //When SmoothUI is on, previous slot is smooth scale down back to 1.0. However all other non selected slots are snapped to 1.0 to prevent multiple slots being mid smooth scaling
+                if (isSelected || isPrevious)
+                {
+                    targetScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
+                }
+                else
+                {
+                    transform.localScale = Vector3.one;
+                }
+            }
+            else
+            {
+                transform.localScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
+            }
         }
         else
         {
-            transform.localScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
+            if (SmoothUI)
+            {
+                targetScale = Vector3.one;
+            }
+            else
+            {
+                transform.localScale = Vector3.one;
+            }
         }
-        //Add border code later
+
+
         if (unselectedHotbarFade)
         {
             canvasGroup.alpha = isSelected ? 1.0f : 0.5f;
+        }
+        
+        if (borderImage != null)
+        {
+            borderImage.color = isSelected ? selectedColor : normalColor;
         }
     }
 }
