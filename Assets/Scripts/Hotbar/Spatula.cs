@@ -29,4 +29,12 @@ public class Spatula : MonoBehaviour, IUsable
             playersCameraTransform = references.playersCameraTransform;
         }
     }
+    public bool CanUse()
+    {
+        return true;
+    }
+    public string GetUseText()
+    {
+        return "Flip";
+    }
 }

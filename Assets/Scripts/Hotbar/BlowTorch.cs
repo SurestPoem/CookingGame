@@ -18,4 +18,12 @@ public class BlowTorch : MonoBehaviour, IUsable
     {
         isOn = !isOn;
     }
+    public bool CanUse()
+    {
+        return true;
+    }
+    public string GetUseText()
+    {
+        return isOn ? "Turn off" : "Turn on";
+    }
 }

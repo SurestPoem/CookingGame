@@ -28,21 +28,8 @@ public class PlayerInteract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         GetInteractableObject();
     }
-
-   /* private void Interact()
-    {
-        if (Physics.Raycast(references.playersCameraTransform.position, references.playersCameraTransform.forward, out RaycastHit raycastHit, interactRange, interactLayerMask))
-        {
-            if (raycastHit.transform.TryGetComponent<IInteractable>(out IInteractable interactable))
-            {
-                interactable.Interact(gameObject);
-            }
-        }
-    }
-   */
 
     private void GetInteractableObject()
     {
@@ -65,5 +52,15 @@ public class PlayerInteract : MonoBehaviour
         {
             references.interactUI.Hide();
         }
+    }
+
+    private void GetCurrentDevice()
+    {
+        //Ignore for now
+    }
+
+    private void GetInteractBinding()
+    {
+        //Ignore for now
     }
 }

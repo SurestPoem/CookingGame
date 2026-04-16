@@ -43,4 +43,16 @@ public class Gun : MonoBehaviour, IUsable
             playersCameraTransform = references.playersCameraTransform;
         }
     }
+    public bool CanUse()
+    {
+        if (Time.time - lastUsedTime < cooldownTime)
+        {
+            return false; // Still in cooldown
+        }
+        return true;
+    }
+    public string GetUseText()
+    {
+        return "Shoot";
+    }
 }
