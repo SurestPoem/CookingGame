@@ -131,12 +131,12 @@ MonoBehaviour:
   icon: {fileID: 728755637484006015}
   canvasGroup: {fileID: 5567805316365127476}
   unselectedHotbarFade: 1
-  dontScaleWhenNotHolding: 1
+  dontHighlightWhenNotHolding: 1
   borderImage: {fileID: 981390977584813773}
   normalColor: {r: 0.43137255, g: 0.43137255, b: 0.43137255, a: 0.6}
   selectedColor: {r: 1, g: 1, b: 1, a: 1}
   SmoothUI: 1
-  smoothTime: 0.1
+  smoothTime: 0.2
 --- !u!222 &1315486211291711134
 CanvasRenderer:
   m_ObjectHideFlags: 0

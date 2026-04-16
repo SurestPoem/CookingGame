@@ -4,10 +4,8 @@ public class HotbarUIManager : MonoBehaviour
 {
     [SerializeField] HotbarSlotUI[] hotbarSlotUIs = new HotbarSlotUI[9];
     [SerializeField] private float selectionScale = 1.2f;
-    private int currentSelectedIndex;
-    private int previousSelectedIndex;
 
-    public void UpdateUI(HotbarItem[] hotbarSlots, int currentIndex, bool isHoldingSomething)
+    public void UpdateUI(HotbarItem[] hotbarSlots, int currentIndex, int previousIndex, bool isHoldingSomething)
     {
         if (hotbarSlots.Length != hotbarSlotUIs.Length)
         {
@@ -15,12 +13,6 @@ public class HotbarUIManager : MonoBehaviour
             Debug.LogWarning("Length of arrays is different");
             return; //Genuinely don't know why this would happen. Possible - Add proper logic to continue working normally as best as possible, but for now this is fine.
         }
-        if (currentIndex != currentSelectedIndex)
-        {
-            previousSelectedIndex = currentSelectedIndex;
-            currentSelectedIndex = currentIndex;
-        }
-
         for (int i = 0;  i < hotbarSlots.Length; i++)
         {
             HotbarSlotUI currentSlotUI = hotbarSlotUIs[i];
@@ -32,9 +24,9 @@ public class HotbarUIManager : MonoBehaviour
             {
                 currentSlotUI.SetIcon(null);
             }
-            bool isPrevious = (i == previousSelectedIndex);
-            bool isSelected = (i == currentSelectedIndex);
-            currentSlotUI.ScaleHotbarSlot(isSelected, isPrevious, selectionScale, isHoldingSomething);
+            bool isPrevious = (i == previousIndex);
+            bool isSelected = (i == currentIndex);
+            currentSlotUI.SlotSelectionVisuals(isSelected, isPrevious, selectionScale, isHoldingSomething);
         }
     }
 }

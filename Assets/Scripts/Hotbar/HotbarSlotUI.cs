@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class HotbarSlotUI : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class HotbarSlotUI : MonoBehaviour
     
     [Header("General settings")]
     [SerializeField] private bool unselectedHotbarFade = true;
-    [SerializeField] private bool dontScaleWhenNotHolding = true;
+    [SerializeField] private bool dontHighlightWhenNotHolding = true;
     [Header("Border settings")]
     [SerializeField] private Image borderImage;
     [SerializeField] private Color normalColor = new Color(110/255f, 110/255f, 110/255f);
@@ -27,63 +28,58 @@ public class HotbarSlotUI : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void ScaleHotbarSlot(bool isSelected, bool isPrevious, float selectedScale, bool isHoldingSomething)
     {
+        Vector3 scaleTarget = Vector3.one * (isSelected ? selectedScale : 1.0f);
+        transform.DOKill();
         if (SmoothUI)
         {
-            if ((transform.localScale - targetScale).sqrMagnitude > 0.0001f)
+            //When SmoothUI is on, previous slot is smooth scale down back to 1.0. However all other non selected slots are snapped to 1.0 to prevent multiple slots being mid smooth scaling
+            if (isSelected || isPrevious)
             {
-                transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime / smoothTime);
+                transform.DOScale(scaleTarget, smoothTime);
             }
             else
-            {
-                transform.localScale = targetScale;
-            }
-        }
-    }
-
-    public void ScaleHotbarSlot(bool isSelected, bool isPrevious, float selectedScale, bool isHoldingSomething)
-    {
-        if (isHoldingSomething || !dontScaleWhenNotHolding)
-        {
-            if (SmoothUI)
-            {
-                //When SmoothUI is on, previous slot is smooth scale down back to 1.0. However all other non selected slots are snapped to 1.0 to prevent multiple slots being mid smooth scaling
-                if (isSelected || isPrevious)
-                {
-                    targetScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
-                }
-                else
-                {
-                    transform.localScale = Vector3.one;
-                }
-            }
-            else
-            {
-                transform.localScale = Vector3.one * (isSelected ? selectedScale : 1.0f);
+            {                
+                transform.localScale = scaleTarget;
             }
         }
         else
         {
-            if (SmoothUI)
-            {
-                targetScale = Vector3.one;
-            }
-            else
-            {
-                transform.localScale = Vector3.one;
-            }
+            transform.localScale = scaleTarget;
         }
+    }
 
+    private Color GetBorderColour(bool isSelected, bool isHoldingSomething)
+    {        
+        if (!isHoldingSomething && dontHighlightWhenNotHolding)
+        {
+            return normalColor;
+        }
+        return isSelected ? selectedColor : normalColor;
+    }
+
+    public void SlotSelectionVisuals(bool isSelected, bool isPrevious, float selectedScale, bool isHoldingSomething)
+    {
+        ScaleHotbarSlot(isSelected, isPrevious, selectedScale, isHoldingSomething);
 
         if (unselectedHotbarFade)
         {
             canvasGroup.alpha = isSelected ? 1.0f : 0.5f;
         }
-        
+
         if (borderImage != null)
         {
-            borderImage.color = isSelected ? selectedColor : normalColor;
+            borderImage.DOKill();
+            if (SmoothUI)
+            {                
+                borderImage.DOColor(GetBorderColour(isSelected, isHoldingSomething), smoothTime);
+            }
+            else
+            {
+                borderImage.color = GetBorderColour(isSelected, isHoldingSomething);
+            }
+                
         }
     }
 }
