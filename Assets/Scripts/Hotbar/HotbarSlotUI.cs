@@ -59,7 +59,13 @@ public class HotbarSlotUI : MonoBehaviour
         return isSelected ? selectedColor : normalColor;
     }
 
-    public void SlotSelectionVisuals(bool isSelected, bool isPrevious, float selectedScale, bool isHoldingSomething)
+    public void UpdateSlotVisuals(bool isSelected, bool isPrevious, float selectedScale, bool isHoldingSomething, Sprite slotIcon)
+    {
+        SlotSelectionVisuals(isSelected, isPrevious, selectedScale, isHoldingSomething);
+        SetIcon(slotIcon);
+    }
+
+    private void SlotSelectionVisuals(bool isSelected, bool isPrevious, float selectedScale, bool isHoldingSomething)
     {
         ScaleHotbarSlot(isSelected, isPrevious, selectedScale, isHoldingSomething);
 

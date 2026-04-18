@@ -5,7 +5,7 @@ public class HotbarUIManager : MonoBehaviour
     [SerializeField] HotbarSlotUI[] hotbarSlotUIs = new HotbarSlotUI[9];
     [SerializeField] private float selectionScale = 1.2f;
 
-    public void UpdateUI(HotbarItem[] hotbarSlots, int currentIndex, int previousIndex, bool isHoldingSomething)
+    public void UpdateUI(HotbarItem[] hotbarSlots, int currentIndex, int previousIndex, bool isHoldingSomething) //Called in Hotbar when the hotbar changes in any way
     {
         if (hotbarSlots.Length != hotbarSlotUIs.Length)
         {
@@ -16,17 +16,10 @@ public class HotbarUIManager : MonoBehaviour
         for (int i = 0;  i < hotbarSlots.Length; i++)
         {
             HotbarSlotUI currentSlotUI = hotbarSlotUIs[i];
-            if (hotbarSlots[i] != null)
-            {
-                currentSlotUI.SetIcon(hotbarSlots[i].itemIcon);
-            }
-            else
-            {
-                currentSlotUI.SetIcon(null);
-            }
             bool isPrevious = (i == previousIndex);
             bool isSelected = (i == currentIndex);
-            currentSlotUI.SlotSelectionVisuals(isSelected, isPrevious, selectionScale, isHoldingSomething);
+            Sprite slotIcon = hotbarSlots[i] != null ? hotbarSlots[i].itemIcon : null;
+            currentSlotUI.UpdateSlotVisuals(isSelected, isPrevious, selectionScale, isHoldingSomething, slotIcon);
         }
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Hotbar : MonoBehaviour
+public class Hotbar : MonoBehaviour //Note - this script needs a full rewrite in the near future. It works fine for now, so don't use as an excuse to procrastinate the food assembly system for the millionth time 
 {
     public PlayerControls inputs;
     private InputAction scrollAction;
@@ -9,13 +9,16 @@ public class Hotbar : MonoBehaviour
     private InputAction dropAction;
     private InputAction holsterAction;
     private InputAction hotbarSelectionAction;
-    [SerializeField] private int currentSlotIndex = 0;
+    private int currentSlotIndex = 0;
     private int previousSlotIndex = 0;
+    [Header("Hotbar Settings")]
     [SerializeField] private HotbarItem[] hotbarSlots = new HotbarItem[9];
     [SerializeField] private GameObject currentlyHeldItem;
+    [SerializeField] private bool PreferCurrentSlot; //Important - as soon as a settings menu is added, tranfer this to that
+    [Header("Item Drop Settings")]
     [SerializeField] private float throwForce = 3f;
     private PlayerGrabObject grabObject;
-    [SerializeField] private bool PreferCurrentSlot; //Important - as soon as a settings menu is added, tranfer this to that
+ 
 
     private PlayerReferences references;
 
